@@ -5,9 +5,18 @@ import json
 set_log_file("stdout", level='info')
 
 @host_fn()
-def myHostFunction1(input: str) -> str:
-    print("Got input myHostFunction1: " + input)
-    return "myHostFunction1: " + input
+def debug(input: str) -> str:
+    print("Got input debug: " + input)
+    return "debug: " + input
+
+@host_fn()
+def myHostFunction1(input: bytes) -> bytes:
+    for i in input:
+        if i == 0:
+            raise ValueError("Input cannot contain null bytes")
+        print("input[{i}] ".format_map(locals()) + str(i))
+    #print("Got input myHostFunction1: " + input)
+    return "myHostFunction1: abcd".encode('utf-8')
 
 @host_fn()
 def myHostFunction2(input: str) -> str:
